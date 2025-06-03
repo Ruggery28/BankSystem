@@ -5,6 +5,8 @@ package com.mycompany.banksystem;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import menuoptions.MenuDeposit;
+import menuoptions.MenuWithdraw;
 
 /**
  *
@@ -45,12 +47,13 @@ public class BankSystem {
                 case "2":
                     for(BankAccount bankAccount : BankAccount.getUserAccount()){
                         System.out.println(bankAccount.accountData());
-                    }
-                    
+                    }    
                     break;
                 case "3":
+                    MenuDeposit.deposit();
                     break;
                 case "4":
+                    MenuWithdraw.withdraw();
                     break;
                 case "5":
                     break;
