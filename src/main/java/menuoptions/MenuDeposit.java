@@ -19,7 +19,7 @@ public class MenuDeposit {
         while (working) {
 
             for (BankAccount accountNum : BankAccount.getUserAccount()) {
-                System.out.println("Account nº: " + accountNum.getAccountNumber() + " - Name: " + accountNum.getAccountHolderName());
+                System.out.println("Account n: " + accountNum.getAccountNumber() + " - Name: " + accountNum.getAccountHolderName());
             }
 
             System.out.printf("What account would you like to deposit: ");

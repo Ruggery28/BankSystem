@@ -5,7 +5,9 @@ package com.mycompany.banksystem;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import menuoptions.MenuDelete;
 import menuoptions.MenuDeposit;
+import menuoptions.MenuTransfer;
 import menuoptions.MenuWithdraw;
 
 /**
@@ -56,8 +58,10 @@ public class BankSystem {
                     MenuWithdraw.withdraw();
                     break;
                 case "5":
+                    MenuTransfer.transfer();
                     break;
                 case "6":
+                    MenuDelete.delete();
                     break;
             }
 

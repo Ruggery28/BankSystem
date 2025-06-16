@@ -20,7 +20,6 @@ public class BankAccount {
     private String AccountHolderName;
     private double balance;
 
-
     public BankAccount(String AccountHolderName) {
         this.AccountHolderName = AccountHolderName;
         this.balance = 0.0;
@@ -58,9 +57,7 @@ public class BankAccount {
     }
 
     public String accountData() {
-        return "Account Number: " + AccountNumber + " - Account Name: " + AccountHolderName + " Balance: €" + balance;
+        return "Account Number: " + AccountNumber + " - Account Name: " + AccountHolderName + " Balance: $" + balance;
     }
-
-
 
 }

@@ -23,13 +23,13 @@ public class MenuWithdraw {
             }
 
             try {
-                System.out.println("Which account would you like to withdraw?: ");
+                System.out.printf("Which account would you like to withdraw?: ");
                 int checkAccount = scanner.nextInt();
                 scanner.nextLine();
 
                 for (BankAccount withdrawAccount : BankAccount.getUserAccount()) {
                     if (withdrawAccount.getAccountNumber() == checkAccount) {
-                        System.out.println("How much would you like to withdraw?: ");
+                        System.out.printf("How much would you like to withdraw?: ");
                         double withdrawValue = scanner.nextDouble();
                         scanner.nextLine(); //clean buffer
                         double newBalance = withdrawAccount.getBalance() - withdrawValue;
