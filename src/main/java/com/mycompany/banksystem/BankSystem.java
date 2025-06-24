@@ -42,25 +42,45 @@ public class BankSystem {
                 case "1":
                     System.out.printf("Enter your name: ");
                     String name = scanner.nextLine();
-                    BankAccount account = new BankAccount(name);    
+                    BankAccount account = new BankAccount(name);
                     System.out.println("Welcome, " + account.getAccountHolderName());
                     account.accountData(); //need to delete it later
                     break;
                 case "2":
-                    for(BankAccount bankAccount : BankAccount.getUserAccount()){
+                    if (BankAccount.getUserAccount().isEmpty()) {
+                        System.out.println("No account has been created.");
+                        break;
+                    }
+                    for (BankAccount bankAccount : BankAccount.getUserAccount()) {
                         System.out.println(bankAccount.accountData());
-                    }    
+                    }
                     break;
                 case "3":
+                    if (BankAccount.getUserAccount().isEmpty()) {
+                        System.out.println("No account has been created.");
+                        break;
+                    }
                     MenuDeposit.deposit();
                     break;
                 case "4":
+                    if (BankAccount.getUserAccount().isEmpty()) {
+                        System.out.println("No account has been created.");
+                        break;
+                    }
                     MenuWithdraw.withdraw();
                     break;
                 case "5":
+                    if (BankAccount.getUserAccount().isEmpty()) {
+                        System.out.println("No account has been created.");
+                        break;
+                    }
                     MenuTransfer.transfer();
                     break;
                 case "6":
+                    if (BankAccount.getUserAccount().isEmpty()) {
+                        System.out.println("No account has been created.");
+                        break;
+                    }
                     MenuDelete.delete();
                     break;
             }

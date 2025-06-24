@@ -25,7 +25,7 @@ public class MenuDeposit {
                 System.out.println("Account n: [" + accountNum.getAccountNumber() + "] - Name: " + accountNum.getAccountHolderName());
             }
 
-            System.out.printf("What account would you like to deposit: [0] Press zero to cancel: ");
+            System.out.printf("What account would you like to deposit? [0] Press zero to cancel: ");
 
             try {
                 int checkAccount = scanner.nextInt();
@@ -46,15 +46,21 @@ public class MenuDeposit {
                     }
                 }
 
-                //if account has not found, it will go to else and print that it doesnt exist.
+                //if account has not been found, it will go to else and print that it doesnt exist.
                 if (matchAccount != null) {
                     //however, if we found, I'll ask for the money value and then compare if it's more than 0
                     double money = 0;
                     while (money <= 0) {
-                        System.out.printf("How much would you like to deposit: ");
+                        System.out.printf("How much would you like to deposit? [0] Press zero to cancel:");
                         money = scanner.nextDouble();
                         scanner.nextLine(); //clean buffer
-                        if (money <= 0) {
+                        /*If user value is 0, cancel all operation.
+                        If user value is negative, loop will ask to do it again
+                        If user value is a positive number greater than 0, will deposite and close the loop.*/
+                        if (money == 0) {
+                            System.out.println("Deposit cancelled!");
+                            return; //it will cancel the rest of the code and close the while
+                        } else if(money < 0) {
                             System.out.println("Deposit amount must be greater than zero.");
                         } else {
                             double newBalance = matchAccount.getBalance() + money; //get the previous balance and add with the money.
