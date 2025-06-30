@@ -6,6 +6,7 @@ package menuoptions;
 
 import com.mycompany.banksystem.BankAccount;
 import static com.mycompany.banksystem.BankSystem.scanner;
+import java.util.InputMismatchException;
 
 /**
  *
@@ -16,36 +17,50 @@ public class MenuDelete {
     public static void delete() {
 
         boolean running = true;
-
+        // Loop until a valid account is deleted or operation is canceled
         while (running) {
-
+            //for to track all accounts and print it to the user.
             for (BankAccount accountNum : BankAccount.getUserAccount()) {
                 System.out.println("Account n: " + accountNum.getAccountNumber() + " - Name: " + accountNum.getAccountHolderName());
             }
 
-            System.out.printf("which account would you like to delete? ");
-
-            
-            //I need to include the option inside a new object and exclude it by the new object
             try {
+                System.out.printf("which account would you like to delete? [0] Press zero to cancel: ");
                 int accountOption = scanner.nextInt();
                 scanner.nextLine(); //clean the buffer
-                BankAccount toDelete = null;
-                for(BankAccount deleteAccount : BankAccount.getUserAccount()){
-                    if(deleteAccount.getAccountNumber() == accountOption){
-                        toDelete = deleteAccount; 
+
+                /*checking if the user wants to cancel the deposit without going
+                all trhought the code. (they might typed it wrong)*/
+                if (accountOption == 0) {
+                    System.out.println("Delete cancelled.");
+                    return;
+                }
+
+                BankAccount selectedAccount = null; //new object to store the account
+                for (BankAccount deleteAccount : BankAccount.getUserAccount()) {
+                    //if account is found I set it to the new object toDelete.
+                    if (deleteAccount.getAccountNumber() == accountOption) {
+                        selectedAccount = deleteAccount;
                         break;
                     }
                 }
-                if(toDelete == null){
-                    System.out.println("This account wasnt found, try again!");
-                } else{
-                    BankAccount.getUserAccount().remove(toDelete);
-                    System.out.println("Your account was deleted sucessfully!");
-                    running = false;
+                //if the account hasnt been found, first if is validated.
+                if (selectedAccount == null) {
+                    System.out.println("This account wasn't found.");
+                    continue;
+                } else {
+                    //if account exist, I will check if there is balance, if no balance, I can delete.
+                    if (selectedAccount.getBalance() == 0) {
+                        BankAccount.getUserAccount().remove(selectedAccount);
+                        System.out.println("Your account has been deleted successfully.");
+                        running = false;
+                    } else { //otherwise, the user need to withdraw all balance first.
+                        System.out.println("You need to withdraw all your balance!");
+                        return;
+                    }
                 }
-            } catch (Exception e) {
-
+            } catch (InputMismatchException e) {
+                System.out.println("Enter a valid option.");
             }
 
         }

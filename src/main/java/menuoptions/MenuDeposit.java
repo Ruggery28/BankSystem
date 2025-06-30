@@ -65,7 +65,7 @@ public class MenuDeposit {
                         } else {
                             double newBalance = matchAccount.getBalance() + money; //get the previous balance and add with the money.
                             matchAccount.setBalance(newBalance); //set the new value inside the object
-                            System.out.println("Deposit was made sucessfully! New Balance: $" + newBalance);
+                            System.out.printf("Deposit was made sucessfully! New Balance: $%.2f%n", newBalance);
                             working = false; //close the while
                         }
                     }

@@ -17,7 +17,7 @@ public class MenuWithdraw {
 
         boolean running = true;
 
-        //while running is true I'll keep asking for an account to withdraw, getting all I want I change it to false.
+        // Loop until a valid account is deleted or operation is canceled
         while (running) {
             //for to track all accounts and print it to the user.
             for (BankAccount accountNum : BankAccount.getUserAccount()) {
@@ -66,7 +66,7 @@ public class MenuWithdraw {
                             } else {
                                 double newBalance = matchAccount.getBalance() - withdrawValue; //subtracting the value of the account
                                 matchAccount.setBalance(newBalance); //setting new balance
-                                System.out.println("Withdraw was made sucessfully! New Balance: $" + matchAccount.getBalance());
+                                System.out.printf("Withdraw was made sucessfully! New Balance: $%.2f%n", matchAccount.getBalance());
                                 withdraw = false;
                                 running = false;
                             }
