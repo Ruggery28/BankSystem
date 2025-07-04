@@ -6,6 +6,7 @@ package menuoptions;
 
 import com.mycompany.banksystem.BankAccount;
 import static com.mycompany.banksystem.BankSystem.scanner;
+import java.util.InputMismatchException;
 
 /**
  *
@@ -18,56 +19,100 @@ public class MenuTransfer {
         boolean running = true;
 
         while (running) {
+            //for to track all accounts and print it to the user.
             for (BankAccount accountNum : BankAccount.getUserAccount()) {
                 System.out.println(accountNum.accountData());
             }
 
-            System.out.printf("Which account would you like to take money from? ");
             try {
-                int accountTaken = scanner.nextInt();
-                scanner.nextLine(); //clean buffer
-
-                System.out.printf("Which account would you like to transfer? ");
-                int accountTransfer = scanner.nextInt();
-                scanner.nextLine(); //clean buffer
-
-                System.out.printf("How much would you like to transfer? ");
-                double value = scanner.nextDouble();
-                scanner.nextLine(); //clean buffer
-
+                //creating two new objects to store and compare the accounts that exist.
                 BankAccount newAccountTaken = null;
                 BankAccount newAccountTransfer = null;
 
+                //asking the user which accout he would like to take the money from.
+                System.out.printf("Which account would you like to take money from? [0] Press zero to cancel: ");
+                int accountTaken = scanner.nextInt();
+                scanner.nextLine(); //clean buffer
+
+                //checking if the account exist and storing it in the new object.
                 for (BankAccount transferAccount : BankAccount.getUserAccount()) {
                     if (transferAccount.getAccountNumber() == accountTaken) {
                         newAccountTaken = transferAccount;
                     }
+                }
+
+                //if account doesnt exist, print the message and return to the beggining of the loop.
+                if (newAccountTaken == null) {
+                    System.out.println("Account taken has not been found! Try it again.");
+                    continue; //this means that when you have a loop, it will stop here and comeback to the first thing inside the loop (while)
+                }
+                
+                if (accountTaken == 0) {
+                    System.out.println("Transfer cancelled."); //cancel and close the code if user wants to cancel.
+                    return; //close the code
+                }
+
+                //asking the user which accout he would like to transfer the money to.
+                System.out.printf("Which account would you like to transfer? [0] Press zero to cancel: ");
+                int accountTransfer = scanner.nextInt();
+                scanner.nextLine(); //clean buffer
+
+                //checking if the account exist and storing it in the new object.
+                for (BankAccount transferAccount : BankAccount.getUserAccount()) {
                     if (transferAccount.getAccountNumber() == accountTransfer) {
                         newAccountTransfer = transferAccount;
                     }
                 }
-                if (newAccountTaken == null) {
-                    System.out.println("Account taken has not been found! Try it again.");
-                } else if (newAccountTransfer == null) {
+
+                //if account doesnt exist, print the message and return to the beggining of the loop.
+                if (newAccountTransfer == null) {
                     System.out.println("Account transfer has not been found! Try it again.");
-                } else {
-                    if (newAccountTaken.getBalance() < value) {
-                        System.out.println("You don't have enough funds to complete the transaction.");
-                        break;
-                    } else {
-                        double newBalanceTaken;
-                        newBalanceTaken = newAccountTaken.getBalance() - value;
-                        newAccountTaken.setBalance(newBalanceTaken);
-                        double newBalanceTransfer;
-                        newBalanceTransfer = newAccountTransfer.getBalance() + value;
-                        newAccountTransfer.setBalance(newBalanceTransfer);
-                        System.out.println("Your transfer was done sucessfully!");
-                        running = false;
-                    }
+                    continue; //this means that when you have a loop, it will stop here and comeback to the first thing inside the loop (while)
+                }
+                
+                if (accountTransfer == 0) {
+                    System.out.println("Transfer cancelled."); //cancel and close the code if user wants to cancel.
+                    return;
                 }
 
-            } catch (Exception e) {
+                //if user enter same account for both input it will give this error message and start the loop again
+                if (newAccountTransfer == newAccountTaken) {
+                    System.out.println("You can not transfer from the same account! Try it again.");
+                    continue;
+                }
+
+                int loopValue = -1;
+                while (loopValue < 0) {
+
+                    System.out.printf("How much would you like to transfer? ");
+                    double transferValue = scanner.nextDouble();
+                    scanner.nextLine(); //clean buffer
+
+                    //if user enter a negative number or zero, it will print the error and start the loop again.
+                    if (transferValue <= 0) {
+                        System.out.println("You can't enter a negative number or zero. Try again!");
+                        continue;
+                    }
+
+                    //if the transfer value is less than the balance, it will cancel the transaction.
+                    if (newAccountTaken.getBalance() < transferValue) {
+                        System.out.println("You don't have enough funds to complete the transaction.");
+                        return;
+                    } else { //if not it will take out the money and give to the new account.
+                        double newBalanceTaken = newAccountTaken.getBalance() - transferValue;  //store the new balance
+                        newAccountTaken.setBalance(newBalanceTaken); //set the new balance to the taken account.
+                        double newBalanceTransfer = newAccountTransfer.getBalance() + transferValue;  //store the new balance
+                        newAccountTransfer.setBalance(newBalanceTransfer);  //set the new balance to the transfer account.
+                        System.out.println("Your transfer has been done sucessfully!");
+                        running = false; //close the first loop
+                        loopValue = 0; //close the money loop
+                    }
+
+                }
+
+            } catch (InputMismatchException e) {
                 System.out.println("Enter a valid number!");
+                scanner.nextLine();
             }
 
         }
