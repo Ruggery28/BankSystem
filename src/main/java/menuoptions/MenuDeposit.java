@@ -51,7 +51,7 @@ public class MenuDeposit {
                     //however, if we found, I'll ask for the money value and then compare if it's more than 0
                     double money = 0;
                     while (money <= 0) {
-                        System.out.printf("How much would you like to deposit? [0] Press zero to cancel:");
+                        System.out.printf("How much would you like to deposit? [0] Press zero to cancel: ");
                         money = scanner.nextDouble();
                         scanner.nextLine(); //clean buffer
                         /*If user value is 0, cancel all operation.
